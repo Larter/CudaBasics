@@ -30,7 +30,7 @@ int main()
 	cudaStatus=countDeter(matrix,n,&determinant);
 	long stop=clock();
 
-	printf("new matrix after %Ld\n", stop-start);
+	printf("new matrix after %d\n", stop-start);
 	//printmatrix(matrix,n);
 	printf("determinant equals : %f \n",determinant);
 
@@ -120,7 +120,7 @@ cudaError_t countDeter(double *matrix, int n, double *determinant){
 	}
 	long stop=clock();
 
-	printf("czas samej petli:%Ld\n",stop-start);
+	printf("czas samej petli:%d\n",stop-start);
 
 
 	i=n;
