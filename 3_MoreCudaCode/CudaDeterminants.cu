@@ -21,7 +21,7 @@ int main()
     cudaError_t cudaStatus;
 	int n,i;
 	double* matrix=NULL;
-	for(i=0;i<20;i++){
+	for(i=0;i<2;i++){
 		determinant=1;
 	fillmatrix(&matrix, &n);
 
@@ -30,7 +30,7 @@ int main()
 	cudaStatus=countDeter(matrix,n,&determinant);
 	long stop=clock();
 
-	printf("new matrix after %d\n", stop-start);
+	printf("new matrix after %ldl\n", stop-start);
 	//printmatrix(matrix,n);
 	printf("determinant equals : %f \n",determinant);
 
@@ -50,12 +50,12 @@ int main()
 void fillmatrix(double **matrix, int *n){
 	int nn; //n^2
 	int i;//for loop
-	*n=1024;
+	*n=10000;
 	nn=*n**n;
 	*matrix=(double*)malloc( nn*sizeof(double));//allocating memory
 
 	for(i=0;i<nn;i++){
-		(*matrix)[i]=rand()%100000; //filling matrix
+		(*matrix)[i]=rand()%100; //filling matrix
 	}
 }
 
@@ -120,7 +120,7 @@ cudaError_t countDeter(double *matrix, int n, double *determinant){
 	}
 	long stop=clock();
 
-	printf("czas samej petli:%d\n",stop-start);
+	printf("czas samej petli:%ld\n",stop-start);
 
 
 	i=n;
