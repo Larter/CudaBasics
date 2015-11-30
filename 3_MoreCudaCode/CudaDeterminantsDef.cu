@@ -13,17 +13,17 @@
 #define SINGLETONS 0 //1 if singletons 0 if inversions
 #define RAND 5
 
-__device__ void nextPermutationBlock(long double *matrix, long double *permutations, bool *usedValues, int n, long double value, int parametr, int *fractionNumber, int level);
-__global__ void permutations(long double *matrix,long double *permutationValues);
-__global__ void addPermutations(long double *determinant, long double *permutations, int *n);
+__device__ void nextPermutationBlock(double *matrix, double *permutations, bool *usedValues, int n, double value, int parametr, int *fractionNumber, int level);
+__global__ void permutations(double *matrix,double *permutationValues);
+__global__ void addPermutations(double *determinant, double *permutations, int *n);
 
 int main(){
 
-	long double *matrix, *d_matrix, *d_permutationValues, *d_determinant, determinant;
+	double *matrix, *d_matrix, *d_permutationValues, *d_determinant, determinant;
 	int n=SIZE, *d_n;
 	cudaError_t cudaStatus;
 
-	matrix=(long double*)malloc(sizeof(long double)*n*n);//alocating matrix
+	matrix=(double*)malloc(sizeof(double)*n*n);//alocating matrix
 
 	for(int i=0; i< n*n; i++){
 		matrix[i]=rand()%RAND;
@@ -36,7 +36,7 @@ int main(){
 	}//for
 
 
-	cudaStatus=cudaMalloc((void**)&d_matrix, n*n*sizeof(long double)); /*allocating matrix memory on gpu*/
+	cudaStatus=cudaMalloc((void**)&d_matrix, n*n*sizeof(double)); /*allocating matrix memory on gpu*/
 
 	if(cudaStatus!=cudaSuccess){
 		fprintf(stderr,"Error in allocating memory\n");
@@ -51,14 +51,14 @@ int main(){
 	}
 
 
-	cudaStatus=cudaMalloc((void**)&d_permutationValues, (n-1)*n*sizeof(long double)); /*allocating matrix memory on gpu*/
+	cudaStatus=cudaMalloc((void**)&d_permutationValues, (n-1)*n*sizeof(double)); /*allocating matrix memory on gpu*/
 
 	if(cudaStatus!=cudaSuccess){
 		fprintf(stderr,"Error in allocating memory\n");
 		return cudaSuccess;
 	}
 
-	cudaStatus=cudaMalloc((void**)&d_determinant, sizeof(long double)); /*allocating matrix memory on gpu*/
+	cudaStatus=cudaMalloc((void**)&d_determinant, sizeof(double)); /*allocating matrix memory on gpu*/
 
 	if(cudaStatus!=cudaSuccess){
 		fprintf(stderr,"Error in allocating memory\n");
@@ -66,9 +66,9 @@ int main(){
 	}
 
 
-	cudaStatus=cudaMemcpy(d_matrix,matrix,n*n*sizeof(long double),cudaMemcpyHostToDevice);
+	cudaStatus=cudaMemcpy(d_matrix,matrix,n*n*sizeof(double),cudaMemcpyHostToDevice);
 	if(cudaStatus!=cudaSuccess){
-		fprintf(stderr,"Error in copying matrix memory, %d\n");
+		fprintf(stderr,"Error in copying matrix memory, %d\n", cudaStatus);
 		return cudaStatus;
 	}
 
@@ -93,9 +93,9 @@ int main(){
 
 	addPermutations<<<1,1>>>(d_determinant,d_permutationValues,d_n);
 
-	cudaStatus=cudaMemcpy(&determinant,d_determinant,sizeof(long double),cudaMemcpyDeviceToHost);
+	cudaStatus=cudaMemcpy(&determinant,d_determinant,sizeof(double),cudaMemcpyDeviceToHost);
 	if(cudaStatus!=cudaSuccess){
-		fprintf(stderr,"Error in copying matrix memory, %d\n");
+		fprintf(stderr,"Error in copying matrix memory, %d\n", cudaStatus);
 		return cudaStatus;
 	}
 
@@ -107,7 +107,7 @@ int main(){
 
 
 
-__device__ void nextPermutationBlock(long double *matrix, long double *permutations, bool *usedValues, int n, long double value, int parametr, int *fractionNumber, int level){
+__device__ void nextPermutationBlock(double *matrix, double *permutations, bool *usedValues, int n, double value, int parametr, int *fractionNumber, int level){
 
 
 	if(level==n){
@@ -149,7 +149,7 @@ __device__ void nextPermutationBlock(long double *matrix, long double *permutati
 }
 
 
-__global__ void addPermutations(long double *determinant, long double *permutations, int *n){
+__global__ void addPermutations(double *determinant, double *permutations, int *n){
 
 	int nn=*n**n-1;
 	*determinant=0;
@@ -158,7 +158,7 @@ __global__ void addPermutations(long double *determinant, long double *permutati
 	}
 }
 
-__global__ void permutations(long double *matrix,long double *permutationValues){
+__global__ void permutations(double *matrix,double *permutationValues){
 
 	int *fractionNumber[1]={0};
 	int n=gridDim.x;
