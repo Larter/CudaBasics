@@ -7,7 +7,7 @@
 #include <math.h>
 #define VALUESMAX 100
 #define BMARK -1
-#define SIZE 2
+#define SIZE 100
 #define PRINTMATRIX 1
 #define PRINTPERM 0
 #define SINGLETONS 0 //1 if singletons 0 if inversions
@@ -28,7 +28,7 @@ int main(){
 	for(int i=0; i< n*n; i++){
 		matrix[i]=rand()%RAND;
 		if(PRINTMATRIX==1){
-			printf("%Lf ",matrix[i]);
+			printf("%f ",matrix[i]);
 			if(!((i+1)%n)){
 			    printf("\n");
 			}//if
@@ -99,7 +99,7 @@ int main(){
 		return cudaStatus;
 	}
 
-	printf("Determinant equals: %Lf \n", determinant);
+	printf("Determinant equals: %f \n", determinant);
 
 
 }
