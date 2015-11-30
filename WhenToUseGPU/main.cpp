@@ -55,7 +55,7 @@ if(argc<3)
   free(a_host);
   long allEnd=clock();
 
-  std::cout<<"Time elapsed :" <<clock()- allStart <<std::endl;
+  std::cout<<"Time elapsed on CPU:" <<clock()- allStart <<std::endl;
   return 0;
   }
 }
