@@ -9,18 +9,18 @@
 
 
 
-void fillmatrix(long double** matrix, int *n);
-void printmatrix(long double* matrix, int n);
-cudaError_t countDeter(long double* matrix, int n, long double * determinant);
-__global__ void addRows(long double *matrix, int* i);
-__global__ void multiplyDet(long double *matrix, long double *determinant,int* n);
+void fillmatrix(double** matrix, int *n);
+void printmatrix(double* matrix, int n);
+cudaError_t countDeter(double* matrix, int n, double * determinant);
+__global__ void addRows(double *matrix, int* i);
+__global__ void multiplyDet(double *matrix, double *determinant,int* n);
 int main()
 {
 
-	long double determinant=1;
+	double determinant=1;
     cudaError_t cudaStatus;
 	int n,i;
-	long double* matrix=NULL;
+	double* matrix=NULL;
 	for(i=0;i<20;i++){
 		determinant=1;
 	fillmatrix(&matrix, &n);
@@ -32,7 +32,7 @@ int main()
 
 	printf("new matrix after %Ld\n", stop-start);
 	//printmatrix(matrix,n);
-	printf("determinant equals : %Lf \n",determinant);
+	printf("determinant equals : %f \n",determinant);
 
 
 
@@ -47,12 +47,12 @@ int main()
     return 0;
 }
 
-void fillmatrix(long double **matrix, int *n){
+void fillmatrix(double **matrix, int *n){
 	int nn; //n^2
 	int i;//for loop
 	*n=1024;
 	nn=*n**n;
-	*matrix=(long double*)malloc( nn*sizeof(long double));//allocating memory
+	*matrix=(double*)malloc( nn*sizeof(double));//allocating memory
 
 	for(i=0;i<nn;i++){
 		(*matrix)[i]=rand()%100000; //filling matrix
@@ -60,27 +60,27 @@ void fillmatrix(long double **matrix, int *n){
 }
 
 
-void printmatrix(long double* matrix, int n){
+void printmatrix(double* matrix, int n){
 
 	/*function prints matrix */
 	int i;
 	for(i=0;i<n*n;i++){
-		printf("%.0Lf%c",matrix[i], (i+1)%n? ' ': '\n');
+		printf("%.0f%c",matrix[i], (i+1)%n? ' ': '\n');
 	}
 }
 
-cudaError_t countDeter(long double *matrix, int n, long double *determinant){
+cudaError_t countDeter(double *matrix, int n, double *determinant){
 
-	long double *d_matrix=NULL;
-	long double *d_determinant=NULL;
+	double *d_matrix=NULL;
+	double *d_determinant=NULL;
 	int *d_i=NULL,i;
 	cudaError_t cudaStatus;
-	cudaStatus=cudaMalloc((void**)&d_matrix,n*n*sizeof(long double));//allocating memory for matrix on gpu
+	cudaStatus=cudaMalloc((void**)&d_matrix,n*n*sizeof(double));//allocating memory for matrix on gpu
 	if(cudaStatus!=cudaSuccess){
 		printf("Error in allocating memory");
 		return cudaStatus;
 	}
-	cudaStatus=cudaMalloc((void**)&d_determinant,sizeof(long double));//allocating memory for determinant
+	cudaStatus=cudaMalloc((void**)&d_determinant,sizeof(double));//allocating memory for determinant
 	if(cudaStatus!=cudaSuccess){
 		printf("Error in allocating memory");
 		return cudaStatus;
@@ -92,14 +92,14 @@ cudaError_t countDeter(long double *matrix, int n, long double *determinant){
 		return cudaStatus;
 	}
 
-	cudaStatus=cudaMemcpy(d_matrix,matrix,n*n*sizeof(long double), cudaMemcpyHostToDevice);
+	cudaStatus=cudaMemcpy(d_matrix,matrix,n*n*sizeof(double), cudaMemcpyHostToDevice);
 
 	if(cudaStatus!=cudaSuccess){
 		printf("Error in copying");
 		return cudaStatus;
 	}
 
-	cudaStatus=cudaMemcpy(d_determinant, determinant,sizeof(long double), cudaMemcpyHostToDevice);
+	cudaStatus=cudaMemcpy(d_determinant, determinant,sizeof(double), cudaMemcpyHostToDevice);
 
 	if(cudaStatus!=cudaSuccess){
 		printf("Error in copying");
@@ -137,14 +137,14 @@ cudaError_t countDeter(long double *matrix, int n, long double *determinant){
 		return cudaStatus;
     }
 
-	cudaStatus = cudaMemcpy(determinant , d_determinant, sizeof(long double), cudaMemcpyDeviceToHost);
+	cudaStatus = cudaMemcpy(determinant , d_determinant, sizeof(double), cudaMemcpyDeviceToHost);
 
 	if(cudaStatus!=cudaSuccess){
 		printf("Error in copying1");
 		//return cudaStatus;
 	}
 
-	cudaStatus=cudaMemcpy(matrix, d_matrix,n*n*sizeof(long double), cudaMemcpyDeviceToHost);
+	cudaStatus=cudaMemcpy(matrix, d_matrix,n*n*sizeof(double), cudaMemcpyDeviceToHost);
 
 	if(cudaStatus!=cudaSuccess){
 		printf("Error in copying");
@@ -164,11 +164,11 @@ cudaError_t countDeter(long double *matrix, int n, long double *determinant){
 
 }
 
-__global__ void addRows(long double *matrix, int *d_i){
+__global__ void addRows(double *matrix, int *d_i){
 	int i=*d_i;
 	int n=blockDim.x+i;
 	int id= n*(blockIdx.x+i+1) + threadIdx.x+i;
-	__shared__ long double multiplier;
+	__shared__ double multiplier;
 
 	if(threadIdx.x==0){
 		multiplier=matrix[n*(blockIdx.x+1+i)+i]/matrix[n*i+i];
@@ -178,7 +178,7 @@ __global__ void addRows(long double *matrix, int *d_i){
 	matrix[id]-=matrix[n*i+threadIdx.x+i]*multiplier;
 }
 
-__global__ void multiplyDet(long double *matrix, long double *determinant,int* n){
+__global__ void multiplyDet(double *matrix, double *determinant,int* n){
 
 	int i;
 	int nn=*n;
