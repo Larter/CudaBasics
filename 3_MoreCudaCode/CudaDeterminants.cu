@@ -50,7 +50,7 @@ int main()
 void fillmatrix(double **matrix, int *n){
 	int nn; //n^2
 	int i;//for loop
-	*n=10000;
+	*n=3000;
 	nn=*n**n;
 	*matrix=(double*)malloc( nn*sizeof(double));//allocating memory
 
