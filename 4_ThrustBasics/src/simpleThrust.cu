@@ -24,9 +24,9 @@ std::cout<<std::endl;
 thrust::device_vector<int> dev_vec = host_vec;
 
 
-thrust::transform(device_vec.begin(), device_vec.end(), thrust::negate<int>());
+thrust::transform(dev_vec.begin(), dev_vec.end(), thrust::negate<int>)
 
-thrust::copy(device_vec.begin(), device_vec.end(), host_vec.begin());
+thrust::copy(dev_vec.begin(), dev_vec.end(), host_vec.begin());
 
 
 std::cout<<"Host vector After"<< std::endl;
