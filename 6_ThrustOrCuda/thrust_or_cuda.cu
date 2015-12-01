@@ -98,7 +98,7 @@ if(argc<3)
 
 
   // Do calculation on device:
-  int block_size = 10;
+  int block_size = 7;
 
   int n_blocks = array_size/block_size + (array_size%block_size == 0 ? 0:1);
 
