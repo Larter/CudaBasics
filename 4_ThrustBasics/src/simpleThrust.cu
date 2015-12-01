@@ -3,7 +3,6 @@
 #include <thrust/for_each.h>
 #include <iterator>
 #include <thrust/copy.h>
-#include <thrust/iterator/permutation_iterator.h>
 #include <thrust/transform.h>
 #include <algorithm>
 #include <vector>
