@@ -6,6 +6,7 @@
 #include <thrust/device_vector.h>
 #include <thrust/host_vector.h>
 #include <thrust/transform.h>
+#include <thrust/copy.h>
 
 // Kernel that executes on the CUDA device
 __global__ void pow_array_gpu(float *a, int power, int array_size)
@@ -70,7 +71,7 @@ if(argc<3)
 
 
   // Do calculation on device:
-  int block_size = 256;
+  int block_size = 320;
 
   int n_blocks = array_size/block_size + (array_size%block_size == 0 ? 0:1);
 
@@ -103,7 +104,7 @@ if(argc<3)
   thrust::device_vector<float> v_device= v_host;
 
   thrust::transform(v_device.begin(), v_device.end(), v_device.begin(), power_operator(power));
-
+  thrust::copy(v_device.begin(), v_device.end(), v_host.begin());
 }
   long allEnd=clock();
 
