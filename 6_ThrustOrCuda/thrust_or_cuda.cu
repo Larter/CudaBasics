@@ -97,10 +97,10 @@ if(argc<3)
   cudaDeviceReset();
   int allStart=clock();
 {
-  thrust::host_vector v_host(array_size);
+  thrust::host_vector<float> v_host(array_size);
   for (int i=0; i<array_size; i++) v_host[i] = i;
 
-  thrust::device_vector v_device= v_host;
+  thrust::device_vector<float> v_device= v_host;
 
   thrust::transform(v_device.begin(), v_device.end(), v_device.begin(), power_operator(power));
 
