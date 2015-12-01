@@ -55,14 +55,15 @@ __global__ void pow_array_gpu(float *a, int power, int array_size)
 struct power_operator
 {
   int power;
+  float result;
   power_operator(int p) :power(p) {};
 __device__ __host__
-  float operator()(const float& value) const
+  float operator()(float& value) const
   {
-    float result=1;
+  result=1;
       for(int i=0; i<power; ++i)
         result*=value;
-    return result;
+    value = result;
   }
 
 };
@@ -129,7 +130,7 @@ if(argc<3)
 
       thrust::device_vector<float> v_device= v_host;
 
-      thrust::transform(v_device.begin(), v_device.end(), v_device.begin(), power_operator(power));
+      thrust::for_each(v_device.begin(), v_device.end(), power_operator(power));
       thrust::copy(v_device.begin(), v_device.end(), v_host.begin());
     }
   long allEnd=clock();
