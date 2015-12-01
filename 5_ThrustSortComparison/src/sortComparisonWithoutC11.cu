@@ -9,6 +9,10 @@
 #include <vector>
 #include <thrust/sort.h>
 #include <sys/times.h>
+#include <cuda_runtime.h>
+#include <device_launch_parameters.h>
+#include <cuda.h>
+
 
 
 void start_clock(void);
@@ -47,13 +51,11 @@ int main(int argc, char ** argv)
 if(argc<2)
 {
        std::cout<<"Please provide size as argument"<<std::endl;
+       return 1;
 }
 long vec_size =atoi(argv[1]);
 
 {
-std::cout <<std::endl<<"sort test all std"<<std::endl;
-
-
 start_clock();
 std::vector<double> vec(vec_size);
 std::for_each(vec.begin(), vec.end(), generateRandom);
@@ -77,6 +79,7 @@ end_clock("CPU sort only");
 }
 
 {
+cudaDeviceReset();
 start_clock();
 
 thrust::host_vector<double> hv(vec_size);
@@ -94,6 +97,7 @@ end_clock("thrust ALL");
 
 {
 
+cudaDeviceReset();
 thrust::host_vector<double> hv(vec_size);
 std::for_each(hv.begin(), hv.end(), generateRandom);
 
@@ -109,6 +113,7 @@ end_clock("Thrust sort and copy and alloc");
 }
 
 {
+cudaDeviceReset();
 thrust::host_vector<double> hv(vec_size);
 std::for_each(hv.begin(), hv.end(), generateRandom);
 
@@ -125,6 +130,7 @@ end_clock("thrust sort and copy");
 
 }
 {
+cudaDeviceReset();
 thrust::host_vector<double> hv(vec_size);
 std::for_each(hv.begin(), hv.end(), generateRandom);
 
