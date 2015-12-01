@@ -22,7 +22,7 @@ int main(void)
 
   float *a_device;
 
-
+cudaDeviceReset();
   cudaMalloc((void **) &a_device, size);   // Allocate array on device
   cudaMemcpy(a_device, a_host, size, cudaMemcpyHostToDevice); //Copy data to device
 

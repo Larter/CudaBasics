@@ -41,6 +41,7 @@ if(argc<3)
   std::cout<<"Please provide array size, and iteration level as arguments"<<std::endl;
   return 1;
 }
+for(int i=0; i<100; ++i)
 {
   int allStart=clock();
   int array_size = atoi(argv[1]);
@@ -51,6 +52,8 @@ if(argc<3)
 
 
   float *a_device;
+
+//  cudaDeviceReset();
 
   long mallocStart= clock();
   cudaMalloc((void **) &a_device, array_size*sizeof(float));   // Allocate array on device
