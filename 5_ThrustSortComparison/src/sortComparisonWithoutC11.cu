@@ -29,7 +29,7 @@ void end_clock(char *msg)
 {
     en_time = times(&en_cpu);
 
-    std::cout<< "Sort type : " << msg <<" took :"<< (intmax_t)(en_time - st_time)<<std::endl;
+    std::cout<< "Sort type : " << msg << std::endl<< " Time elapsed:"<< (intmax_t)(en_time - st_time)<<std::endl;
 }
 
 
@@ -64,7 +64,6 @@ end_clock("CPU all");
 }
 
 {
-std::cout <<std::endl<<"sort test std"<<std::endl;
 std::vector<double> vec(vec_size);
 std::for_each(vec.begin(), vec.end(), generateRandom);
 
@@ -74,12 +73,10 @@ start_clock();
 
 std::sort(vec.begin(), vec.end());
 
-end_clock("CPU");
+end_clock("CPU sort only");
 }
 
 {
-std::cout<<"cuda all  sort"<<std::endl;
-
 start_clock();
 
 thrust::host_vector<double> hv(vec_size);
@@ -91,13 +88,11 @@ thrust::device_vector<double>  d = hv;
 thrust::sort(d.begin(), d.end());
 hv = d;
 
-end_clock("CUDA ALL");
+end_clock("thrust ALL");
 
 }
 
 {
-std::cout<<"cuda sort"<<std::endl;
-
 
 thrust::host_vector<double> hv(vec_size);
 std::for_each(hv.begin(), hv.end(), generateRandom);
@@ -110,12 +105,10 @@ thrust::device_vector<double>  d = hv;
 thrust::sort(d.begin(), d.end());
 thrust::copy(d.begin(), d.end(), hv.begin());
 
-end_clock("CUDA sort and copy");
+end_clock("Thrust sort and copy and alloc");
 }
 
 {
-std::cout<<"cuda sort only"<<std::endl;
-
 thrust::host_vector<double> hv(vec_size);
 std::for_each(hv.begin(), hv.end(), generateRandom);
 
@@ -128,12 +121,10 @@ thrust::copy(hv.begin(), hv.end(), d.begin());
 thrust::sort(d.begin(), d.end());
 thrust::copy(d.begin(), d.end(), hv.begin());
 
-end_clock("CUDA sort and copy");
+end_clock("thrust sort and copy");
 
 }
 {
-std::cout<<"cuda sort without copy and aloc included"<<std::endl;
-
 thrust::host_vector<double> hv(vec_size);
 std::for_each(hv.begin(), hv.end(), generateRandom);
 
@@ -143,7 +134,7 @@ thrust::device_vector<double>  d = hv;
 start_clock();
 
 thrust::sort(d.begin(), d.end());
-end_clock("CUDA sort only");
+end_clock("thrust sort only");
 
 hv = d;
 }
