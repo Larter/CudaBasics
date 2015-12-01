@@ -29,7 +29,7 @@ void end_clock(char *msg)
 {
     en_time = times(&en_cpu);
 
-    std::cout<< "Time elapsed" << msg << (intmax_t)(en_time - st_time)<<std::endl;
+    std::cout<< "Sort type : " << msg <<" took :"<< (intmax_t)(en_time - st_time)<<std::endl;
 }
 
 
