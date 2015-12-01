@@ -110,7 +110,7 @@ thrust::device_vector<double>  d = hv;
 thrust::sort(d.begin(), d.end());
 thrust::copy(d.begin(), d.end(), hv.begin());
 
-end_clock("CUDA sort and copy")
+end_clock("CUDA sort and copy");
 }
 
 {
