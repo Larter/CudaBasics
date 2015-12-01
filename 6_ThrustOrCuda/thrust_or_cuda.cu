@@ -27,6 +27,7 @@ struct power_operator
   int power;
   power_operator(int p) :power(p) {};
 
+__device__ __host__
   float operator(const float& value) const
   {
     float result=1;
