@@ -274,7 +274,7 @@ void count_md5(unsigned char * text, unsigned char* result, int text_length)
 {
 	MD5_CTX ctx;
 	MD5_Init(&ctx);
-	MD5_Update(&ctx, text, text_length-1);
+	MD5_Update(&ctx, text, text_length);
 	MD5_Final(result, &ctx);
 }
 #include <stdio.h>
@@ -294,7 +294,7 @@ cudaMemcpy(device_text, host_text, text_mem_size, cudaMemcpyHostToDevice); //Cop
 
 count_md5<<<1,1>>>(device_text, device_result, sizeof(host_text)/sizeof(host_text[0]));
 
- cudaMemcpy(host_result, device_result, sizeof(host_result), cudaMemcpyDeviceToHost);//copy data back to CPU
+ cudaMemcpy(host_result, device_result, 16*sizeof(unsigned char), cudaMemcpyDeviceToHost);//copy data back to CPU
 
 for(int i=0; i<16; ++i)
 	printf("%02x", host_result[i]);
