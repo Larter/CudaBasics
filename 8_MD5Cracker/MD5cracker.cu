@@ -326,13 +326,18 @@ thrust::host_vector<Word> host_word(2);
 char word1[] = "something";
 for(int i =0; word1[i]!='\0'; ++i)
 	host_word[0].data[i]=word1[i];
+host_word[0].length=strlen(word1);
 
 char word2[] = "something";
 for(int i =0; word2[i]!='\0'; ++i)
-	host_word[0].data[i]=word2[i];
+	host_word[1].data[i]=word2[i];
+host_word[1].length=strlen(word2);
+
 
 thrust::device_vector<Word> device_word = host_word;
 
+
+thrust::device_vector<MDHash> device_passwords;
 
 
 return 0;
