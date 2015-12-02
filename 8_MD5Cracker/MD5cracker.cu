@@ -279,6 +279,7 @@ void count_md5(unsigned char * text, unsigned char* result, int text_length)
 }
 
 
+
 struct Word
 {
 	char data[32];
@@ -288,6 +289,18 @@ struct Word
 struct MDHash
 {
 	unsigned char data[16];
+};
+
+struct MD5hasher
+{
+MDHash operator()(const Word & word)
+{
+	MDHash hash;
+	MD5_CTX ctx;
+	MD5_Init(&ctx);
+	MD5_Update(&ctx, word.data, word.length);
+	MD5_Final(hash.data, &ctx);
+}
 };
 
 #include <stdio.h>
@@ -323,12 +336,12 @@ printf("\n");
 
 thrust::host_vector<Word> host_word(2);
 
-char word1[] = "something";
+char word1[] = "mom";
 for(int i =0; word1[i]!='\0'; ++i)
 	host_word[0].data[i]=word1[i];
 host_word[0].length=strlen(word1);
 
-char word2[] = "something";
+char word2[] = "help";
 for(int i =0; word2[i]!='\0'; ++i)
 	host_word[1].data[i]=word2[i];
 host_word[1].length=strlen(word2);
@@ -337,7 +350,18 @@ host_word[1].length=strlen(word2);
 thrust::device_vector<Word> device_word = host_word;
 
 
-thrust::device_vector<MDHash> device_passwords;
+thrust::device_vector<MDHash> device_passwords(2);
+
+thrust::transorm(device_word.begin(), device_word.end(), device_passwords.begin(), MD5Hasher());
+
+
+
+for(int n=0; n<2; ++n)
+{
+	for(int i=0; i<16*sizeof(unsigned char); ++i)
+		printf("%02x", device_passwords[j].data[i]);
+	printf("\n");
+}
 
 
 return 0;
