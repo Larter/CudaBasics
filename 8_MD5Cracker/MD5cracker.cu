@@ -277,6 +277,7 @@ void count_md5(unsigned char * text, unsigned char* result)
 	MD5_Update(&ctx, text, sizeof(text)/sizeof(text[0])-1);
 	MD5_Final(result, &ctx);
 }
+#include <stdio.h>
 
 int main(int argc, char const *argv[])
 {
