@@ -277,8 +277,25 @@ void count_md5(unsigned char * text, unsigned char* result, int text_length)
 	MD5_Update(&ctx, text, text_length-1);
 	MD5_Final(result, &ctx);
 }
+
+
+struct Word
+{
+	char data[32];
+	int length;
+};
+
+struct MDHash
+{
+	unsigned char data[16];
+};
+
 #include <stdio.h>
 #include <string.h>
+#include <thrust/host_vector.h>
+#include <thrust/device_vector.h>
+#include <thrust/transorm.h>
+
 int main(int argc, char const *argv[])
 {
 
@@ -302,6 +319,20 @@ count_md5<<<1,1>>>(device_text, device_result, text_mem_size);
 for(int i=0; i<16*sizeof(unsigned char); ++i)
 	printf("%02x", host_result[i]);
 printf("\n");
+
+
+thrust::host_vector<Word> host_word(2);
+
+char word1[] = "something";
+for(int i =0; word1[i]!='\0'; ++i)
+	host_word[0].data[i]=word1[i];
+
+char word2[] = "something";
+for(int i =0; word2[i]!='\0'; ++i)
+	host_word[0].data[i]=word2[i];
+
+thrust::device_vector<Word> device_word = host_word;
+
 
 
 return 0;
