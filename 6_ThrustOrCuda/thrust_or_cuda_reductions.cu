@@ -141,8 +141,8 @@ if(argc<3)
   pow_array_gpu <<< n_blocks, block_size >>> (a_device, power, array_size);
 
 
-  reduce_max_kernel<<< reduce_size, array_size>>> (a_device, reduce_helper, array_size);
-  reduce_max_kernel<<< 1, reduce_size>>>(reduce_helper, a_device, reduce_size);
+  reduce_max_kernel<<< reduce_size, array_size>>> (reduce_helper, a_device, array_size);
+  reduce_max_kernel<<< 1, reduce_size>>>(a_device, reduce_helper, reduce_size);
   // Retrieve result from device and store it in host array
 
 
