@@ -291,7 +291,7 @@ struct MDHash
 	unsigned char data[16];
 };
 
-struct MD5hasher
+struct MD5Hasher
 {
 MDHash operator()(const Word & word)
 {
@@ -300,6 +300,7 @@ MDHash operator()(const Word & word)
 	MD5_Init(&ctx);
 	MD5_Update(&ctx, word.data, word.length);
 	MD5_Final(hash.data, &ctx);
+	return hash;
 }
 };
 
