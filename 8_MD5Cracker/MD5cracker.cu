@@ -297,7 +297,7 @@ count_md5<<<1,1>>>(device_text, device_result, sizeof(host_text)/sizeof(host_tex
  cudaMemcpy(host_result, device_result, sizeof(host_result), cudaMemcpyDeviceToHost);//copy data back to CPU
 
 for(int i=0; i<16; ++i)
-	printf("%02x", host_text[i]);
+	printf("%02x", host_result[i]);
 printf("\n");
 
 
