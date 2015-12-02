@@ -280,7 +280,7 @@ void count_md5()
 	MD5_Final(result, &ctx);
 }
 
-int int main(int argc, char const *argv[])
+int main(int argc, char const *argv[])
 {
 
 count_md5<<<1,100>>>();
