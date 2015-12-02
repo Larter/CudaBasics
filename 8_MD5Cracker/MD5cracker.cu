@@ -61,7 +61,7 @@ typedef struct {
  * the bit counters.  There are no alignment requirements.
  */
 __device__
-void *body(MD5_CTX *ctx, const void *data, unsigned long size)
+const void *body(MD5_CTX *ctx, const void *data, unsigned long size)
 {
 	const unsigned char *ptr;
 	MD5_u32plus a, b, c, d;
@@ -168,7 +168,7 @@ void *body(MD5_CTX *ctx, const void *data, unsigned long size)
 	return ptr;
 }
 
-__global__
+__device__
 void MD5_Init(MD5_CTX *ctx)
 {
 	ctx->a = 0x67452301;
@@ -180,7 +180,7 @@ void MD5_Init(MD5_CTX *ctx)
 	ctx->hi = 0;
 }
 
-__global__
+__device__
 void MD5_Update(MD5_CTX *ctx, const void *data, unsigned long size)
 {
 	MD5_u32plus saved_lo;
@@ -215,7 +215,7 @@ void MD5_Update(MD5_CTX *ctx, const void *data, unsigned long size)
 	memcpy(ctx->buffer, data, size);
 }
 
-__global__
+__device__
 void MD5_Final(unsigned char *result, MD5_CTX *ctx)
 {
 	unsigned long used, available;
@@ -285,6 +285,6 @@ int int main(int argc, char const *argv[])
 
 count_md5<<<1,100>>>();
 
-	return 0;
+return 0;
 }
 
