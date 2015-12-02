@@ -282,7 +282,7 @@ void count_md5(unsigned char * text, unsigned char* result, int text_length)
 int main(int argc, char const *argv[])
 {
 
-unsigned char host_text[] = "something";
+unsigned char host_text[] = "text";
 int text_mem_size = sizeof(host_text);
 unsigned char host_result[16];
 unsigned char* device_text;
@@ -292,7 +292,7 @@ cudaMalloc((void **) &device_text, text_mem_size);   // Allocate array on device
 cudaMemcpy(device_text, host_text, text_mem_size, cudaMemcpyHostToDevice); //Copy data to device
 
 
-count_md5<<<1,1>>>(device_text, device_result, strlen(host_text));
+count_md5<<<1,1>>>(device_text, device_result, 4);
 
  cudaMemcpy(host_result, device_result, 16*sizeof(unsigned char), cudaMemcpyDeviceToHost);//copy data back to CPU
 
