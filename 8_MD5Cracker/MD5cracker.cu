@@ -359,7 +359,7 @@ thrust::transorm(device_word.begin(), device_word.end(), device_passwords.begin(
 for(int n=0; n<2; ++n)
 {
 	for(int i=0; i<16*sizeof(unsigned char); ++i)
-		printf("%02x", device_passwords[j].data[i]);
+		printf("%02x", device_passwords[n].data[i]);
 	printf("\n");
 }
 
