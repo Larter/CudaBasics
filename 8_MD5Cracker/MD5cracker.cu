@@ -307,7 +307,7 @@ MDHash operator()(const Word & word)
 #include <string.h>
 #include <thrust/host_vector.h>
 #include <thrust/device_vector.h>
-#include <thrust/transorm.h>
+#include <thrust/transform.h>
 
 int main(int argc, char const *argv[])
 {
