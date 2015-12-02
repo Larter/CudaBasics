@@ -60,7 +60,7 @@ typedef struct {
  * This processes one or more 64-byte data blocks, but does NOT update
  * the bit counters.  There are no alignment requirements.
  */
-__device__
+__host__ __device__
 const void *body(MD5_CTX *ctx, const void *data, unsigned long size)
 {
 	const unsigned char *ptr;
@@ -168,7 +168,7 @@ const void *body(MD5_CTX *ctx, const void *data, unsigned long size)
 	return ptr;
 }
 
-__device__
+__host__ __device__
 void MD5_Init(MD5_CTX *ctx)
 {
 	ctx->a = 0x67452301;
@@ -180,7 +180,7 @@ void MD5_Init(MD5_CTX *ctx)
 	ctx->hi = 0;
 }
 
-__device__
+__host__ __device__
 void MD5_Update(MD5_CTX *ctx, const void *data, unsigned long size)
 {
 	MD5_u32plus saved_lo;
@@ -215,7 +215,7 @@ void MD5_Update(MD5_CTX *ctx, const void *data, unsigned long size)
 	memcpy(ctx->buffer, data, size);
 }
 
-__device__
+__host__ __device__
 void MD5_Final(unsigned char *result, MD5_CTX *ctx)
 {
 	unsigned long used, available;
@@ -293,6 +293,8 @@ struct MDHash
 
 struct MD5Hasher
 {
+
+__host__ __device__
 MDHash operator()(const Word & word)
 {
 	MDHash hash;
