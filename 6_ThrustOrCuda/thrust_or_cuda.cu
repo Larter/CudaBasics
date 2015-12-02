@@ -96,7 +96,6 @@ if(argc<3)
   cudaMemcpy(a_device, a_host, array_size*sizeof(float), cudaMemcpyHostToDevice);
 
 
-
   // Do calculation on device:
   int block_size = 7;
 

@@ -6,6 +6,18 @@
  * architectures that lack an AND-NOT instruction, just like in Colin Plumb's
  * implementation.
  */
+
+
+ typedef unsigned int MD5_u32plus;
+
+typedef struct {
+	MD5_u32plus lo, hi;
+	MD5_u32plus a, b, c, d;
+	unsigned char buffer[64];
+	MD5_u32plus block[16];
+} MD5_CTX;
+
+
 #define F(x, y, z)			((z) ^ ((x) & ((y) ^ (z))))
 #define G(x, y, z)			((y) ^ ((z) & ((x) ^ (y))))
 #define H(x, y, z)			(((x) ^ (y)) ^ (z))
@@ -48,8 +60,8 @@
  * This processes one or more 64-byte data blocks, but does NOT update
  * the bit counters.  There are no alignment requirements.
  */
-__global__
-const void *body(MD5_CTX *ctx, const void *data, unsigned long size)
+__device__
+void *body(MD5_CTX *ctx, const void *data, unsigned long size)
 {
 	const unsigned char *ptr;
 	MD5_u32plus a, b, c, d;
