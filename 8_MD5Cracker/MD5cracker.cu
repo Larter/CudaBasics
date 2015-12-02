@@ -282,7 +282,7 @@ void count_md5(unsigned char * text, unsigned char* result, int text_length)
 int main(int argc, char const *argv[])
 {
 
-const unsigned char host_text[] = "something";
+unsigned char host_text[] = "something";
 int text_mem_size = sizeof(host_text);
 unsigned char host_result[16];
 unsigned char* device_text;
