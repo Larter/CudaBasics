@@ -283,9 +283,9 @@ int main(int argc, char const *argv[])
 
 const unsigned char host_text[] = "something";
 int text_mem_size = sizeof(host_text);
-char host_result[16];
+unsigned char host_result[16];
 unsigned char* device_text;
-char* device_result;
+unsigned char* device_result;
 
 cudaMalloc((void **) &device_text, text_mem_size);   // Allocate array on device
 cudaMemcpy(device_text, host_text, text_mem_size, cudaMemcpyHostToDevice); //Copy data to device
