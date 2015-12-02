@@ -274,7 +274,7 @@ void count_md5(unsigned char * text, unsigned char* result, int text_length)
 {
 	MD5_CTX ctx;
 	MD5_Init(&ctx);
-	MD5_Update(&ctx, text, text_length);
+	MD5_Update(&ctx, text, text_length-1);
 	MD5_Final(result, &ctx);
 }
 #include <stdio.h>
@@ -283,7 +283,7 @@ int main(int argc, char const *argv[])
 {
 
 unsigned char host_text[] = "text";
-int text_mem_size = 4;
+int text_mem_size = 5;
 unsigned char host_result[16];
 unsigned char* device_text;
 unsigned char* device_result;
@@ -291,9 +291,11 @@ unsigned char* device_result;
 
 cudaMalloc((void **) &device_text, text_mem_size*sizeof(unsigned char));   // Allocate array on device
 cudaMemcpy(device_text, host_text, text_mem_size*sizeof(unsigned char), cudaMemcpyHostToDevice); //Copy data to device
+cudaMalloc((void **) &device_result, 16*sizeof(unsigned char));   // Allocate array on device
 
 
 count_md5<<<1,1>>>(device_text, device_result, text_mem_size);
+
 
  cudaMemcpy(host_result, device_result, 16*sizeof(unsigned char), cudaMemcpyDeviceToHost);//copy data back to CPU
 
