@@ -352,14 +352,15 @@ thrust::device_vector<Word> device_word = host_word;
 
 thrust::device_vector<MDHash> device_passwords(2);
 
-thrust::transorm(device_word.begin(), device_word.end(), device_passwords.begin(), MD5Hasher());
+thrust::transform(device_word.begin(), device_word.end(), device_passwords.begin(), MD5Hasher());
 
 
 
 for(int n=0; n<2; ++n)
 {
+	MDHash h = device_passwords[n];
 	for(int i=0; i<16*sizeof(unsigned char); ++i)
-		printf("%02x", device_passwords[n].data[i]);
+		printf("%02x", h.data[i]);
 	printf("\n");
 }
 
