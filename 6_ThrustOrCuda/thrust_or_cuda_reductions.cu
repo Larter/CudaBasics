@@ -44,7 +44,7 @@ __global__ void reduce_max_kernel(float *d_out, const float *d_logLum, int size)
     extern __shared__ float temp[];
 
     // --- Loading data to shared memory. All the threads contribute to loading the data to shared memory.
-    temp[tid] = (myId < size) ? d_logLum[myId] : -FLT_MAX;
+    temp[tid] = (myId < size) ? d_logLum[myId] : -10000000;
 
     // --- Your solution
     // if (myId < size) { temp[tid] = d_logLum[myId]; } else { temp[tid] = d_logLum[tid]; }
