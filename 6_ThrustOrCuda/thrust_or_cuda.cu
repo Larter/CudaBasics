@@ -55,13 +55,12 @@ __global__ void pow_array_gpu(float *a, int power, int array_size)
 struct power_operator : public thrust::unary_function<float,float>
 {
   int power;
-  float result;
   __device__ __host__
   power_operator(int p) :power(p) {};
 __device__ __host__
   void operator()(const float& value)
   {
-  result=1;
+  float result=1;
       for(int i=0; i<power; ++i)
         result*=value;
     value = result;
