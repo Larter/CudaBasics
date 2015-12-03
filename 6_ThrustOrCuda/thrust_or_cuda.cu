@@ -63,7 +63,7 @@ __device__ __host__
   float result=1;
       for(int i=0; i<power; ++i)
         result*=value;
-    value = result;
+   result=value;
   }
 
 };
@@ -129,7 +129,7 @@ if(argc<3)
 
       thrust::device_vector<float> v_device= v_host;
 
-      thrust::for_each(v_device.begin(), v_device.end(), power_operator(power));
+      thrust::transform(v_device.begin(), v_device.end(), v_device.begin(), power_operator(power));
       thrust::copy(v_device.begin(), v_device.end(), v_host.begin());
     }
   long allEnd=clock();
