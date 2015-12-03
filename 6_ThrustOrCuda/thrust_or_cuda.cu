@@ -59,7 +59,7 @@ struct power_operator : public thrust::unary_function<float,float>
   __device__ __host__
   power_operator(int p) :power(p) {};
 __device__ __host__
-  void operator()(const float& value) const
+  void operator()(const float& value)
   {
   result=1;
       for(int i=0; i<power; ++i)
