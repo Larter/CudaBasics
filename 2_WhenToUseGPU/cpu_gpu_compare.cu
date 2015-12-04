@@ -5,7 +5,7 @@
 #include <device_launch_parameters.h>
 #include <cuda.h>
 #include <sys/times.h>
-
+#include <cstdint>
 
 
 void start_clock(void);
