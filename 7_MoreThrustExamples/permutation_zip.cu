@@ -32,7 +32,7 @@ int main(int argc, char const *argv[])
 
 
 
-	float sum = thrust::reduce(thrust::make_zip_iterator(ints.begin(), floats.begin()), thrust::make_zip_iterator(ints.end(), floats.end()),0, int_float_multi_sum_operator());
+	float sum = thrust::reduce(thrust::make_zip_iterator(thrust::make_tuple(ints.begin(), floats.begin())), thrust::make_zip_iterator(thrust::make_tuple(ints.end(), floats.end())),0, int_float_multi_sum_operator());
 
 	std::cout<<sum<<std::endl;
 	return 0;
