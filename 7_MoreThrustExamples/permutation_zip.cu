@@ -7,9 +7,10 @@
 struct int_float_multi_sum_operator
 {
 	__device__ __host__
-	float operator()(float prev_sum, thrust::tuple<int,float> current )
+	thrust::tuple<int,float> operator()(thrust::tuple<int,float> prev_sum, const thrust::tuple<int,float> & current )
 	{
-		return prev_sum+thrust::get<0>(current)*thrust::get<1>(current);
+		thrust::get<0>(prev_sum)+=thrust::get<0>(current)*thrust::get<1>(current);
+		return prev_sum;
 	}
 };
 
@@ -32,7 +33,9 @@ int main(int argc, char const *argv[])
 
 
 
-	float sum = thrust::reduce(thrust::make_zip_iterator(thrust::make_tuple(ints.begin(), floats.begin())), thrust::make_zip_iterator(thrust::make_tuple(ints.end(), floats.end())),0, int_float_multi_sum_operator());
+	float sum = thrust::get<0>(thrust::reduce(thrust::make_zip_iterator(thrust::make_tuple(ints.begin(), floats.begin())), 
+								thrust::make_zip_iterator(thrust::make_tuple(ints.end(), floats.end())),
+								0, int_float_multi_sum_operator()));
 
 	std::cout<<sum<<std::endl;
 	return 0;
