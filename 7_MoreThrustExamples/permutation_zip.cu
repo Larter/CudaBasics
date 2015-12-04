@@ -1,7 +1,7 @@
 #include <iostream>
 #include <thrust/device_vector.h>
 #include <thrust/host_vector.h>
-//#include <thrust/zip_iterator.h>
+#include <thrust/iterator/zip_iterator.h>
 #include <thrust/reduce.h>
 
 struct int_float_multi_sum_operator
