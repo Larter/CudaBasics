@@ -9,7 +9,7 @@ struct int_float_multi_sum_operator
 	__device__ __host__
 	float operator()(float prev_sum, thrust::tuple<int,float> current )
 	{
-		return prev_sum+get<0>(current)*get<1>(current);
+		return prev_sum+thrust::get<0>(current)*thrust::get<1>(current);
 	}
 }
 
