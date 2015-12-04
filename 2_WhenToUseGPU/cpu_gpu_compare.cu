@@ -2,7 +2,33 @@
 #include <cuda.h>
 #include <iterator>
 #include <algorithm>
-#include <ctime>
+#include <sys/times.h>
+#include <cuda_runtime.h>
+#include <device_launch_parameters.h>
+#include <cuda.h>
+
+
+
+void start_clock(void);
+void end_clock(char *msg);
+static clock_t st_time;
+static clock_t en_time;
+static struct tms st_cpu;
+static struct tms en_cpu;
+
+void
+start_clock()
+{
+    st_time = times(&st_cpu);
+}
+
+
+void end_clock(char *msg)
+{
+    en_time = times(&en_cpu);
+
+    std::cout<< "Time on : " << msg << std::endl<< " :"<< (intmax_t)(en_time - st_time)<<std::endl;
+}
 
 void pow_array(float *a, int power, int array_size)
 {
@@ -41,9 +67,8 @@ if(argc<3)
   std::cout<<"Please provide array size, and iteration level as arguments"<<std::endl;
   return 1;
 }
-for(int i=0; i<100; ++i)
 {
-  int allStart=clock();
+  start_clock();
   int array_size = atoi(argv[1]);
   int power = atoi(argv[2]);
 
@@ -83,13 +108,10 @@ for(int i=0; i<100; ++i)
   // Cleanup
   free(a_host); cudaFree(a_device);
 
-  long allEnd=clock();
-
-  std::cout<<"Time elapsed GPU :" <<clock()- allStart <<std::endl;
+  end_clock("GPU");
   }
   {
-  int allStart=clock();
-
+  start_clock();
   int array_size = atoi(argv[1]);
   int power = atoi(argv[2]);
 
@@ -110,8 +132,7 @@ for(int i=0; i<100; ++i)
 
   // Cleanup
   free(a_host);
-  long allEnd=clock();
-
+  end_clock("CPU");
   std::cout<<"Time elapsed CPU :" <<clock()- allStart <<std::endl;
   }
 }

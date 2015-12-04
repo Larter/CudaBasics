@@ -289,13 +289,15 @@ struct Word
 struct MDHash
 {
 	unsigned char data[16];
+	unsigned char matchedWord[32];
+	bool wordMatched = false;
 };
 
 struct MD5Hasher
 {
 
 __host__ __device__
-MDHash operator()(const Word & word)
+ operator()(const Word & word)
 {
 	MDHash hash;
 	MD5_CTX ctx;
@@ -337,25 +339,25 @@ for(int i=0; i<16*sizeof(unsigned char); ++i)
 printf("\n");
 
 
-thrust::host_vector<Word> host_word(2);
+thrust::host_vector<Word> host_words(2);
 
 char word1[] = "mom";
 for(int i =0; word1[i]!='\0'; ++i)
-	host_word[0].data[i]=word1[i];
-host_word[0].length=strlen(word1);
+	host_words[0].data[i]=word1[i];
+host_words[0].length=strlen(word1);
 
 char word2[] = "help";
 for(int i =0; word2[i]!='\0'; ++i)
-	host_word[1].data[i]=word2[i];
-host_word[1].length=strlen(word2);
+	host_words[1].data[i]=word2[i];
+host_words[1].length=strlen(word2);
 
 
-thrust::device_vector<Word> device_word = host_word;
-
+thrust::device_vector<Word> device_words = host_words;
+thrust::device_vector<MDHash> hashesFound(host_words.size())
 
 thrust::device_vector<MDHash> device_passwords(2);
 
-thrust::transform(device_word.begin(), device_word.end(), device_passwords.begin(), MD5Hasher());
+thrust::transform(device_words.begin(), device_words.end(), device_passwords.begin(), MD5Hasher());
 
 
 

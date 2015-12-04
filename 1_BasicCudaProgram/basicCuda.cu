@@ -22,17 +22,14 @@ int main(void)
 
   float *a_device;
 
-cudaDeviceReset();
   cudaMalloc((void **) &a_device, size);   // Allocate array on device
   cudaMemcpy(a_device, a_host, size, cudaMemcpyHostToDevice); //Copy data to device
-
-
 
   // Do calculation on device:
   int block_size = 64;
   int n_blocks = array_size/block_size + (array_size%block_size == 0 ? 0:1);
-
   square_array <<< n_blocks, block_size >>> (a_device, array_size);
+
 
   cudaMemcpy(a_host, a_device, sizeof(float)*array_size, cudaMemcpyDeviceToHost);//copy data back to CPU
 
