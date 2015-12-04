@@ -19,7 +19,7 @@ int main(int argc, char const *argv[])
 
 	thrust::device_vector<int> ints(300);
 
-	for(int i=0; i < inst.size();++i)
+	for(int i=0; i < ints.size();++i)
 	{
 		ints[i]=i;
 	}
