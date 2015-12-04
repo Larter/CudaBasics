@@ -37,4 +37,3 @@ int main(int argc, char const *argv[])
 	std::cout<<sum<<std::endl;
 	return 0;
 }
-}
