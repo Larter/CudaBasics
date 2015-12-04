@@ -1,11 +1,10 @@
 #include <iostream>
-#include <cuda.h>
 #include <iterator>
 #include <algorithm>
-#include <sys/times.h>
 #include <cuda_runtime.h>
 #include <device_launch_parameters.h>
 #include <cuda.h>
+#include <sys/times.h>
 
 
 
@@ -133,6 +132,5 @@ if(argc<3)
   // Cleanup
   free(a_host);
   end_clock("CPU");
-  std::cout<<"Time elapsed CPU :" <<clock()- allStart <<std::endl;
   }
 }
