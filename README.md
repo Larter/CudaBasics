@@ -36,6 +36,11 @@ Some fancy features of thrust.
 *some cuda basics
 	https://www.youtube.com/watch?v=m0nhePeHwFs&list=PLKK11Ligqititws0ZOoGk3SW-TZCar4dK
 
-
 * comparison thrust, cuda, cpu
 	http://code-saturne.blogspot.com/2010/05/simple-test-on-efficiency-of-thrust.html
+
+* Thrust documentation
+	http://docs.thrust.googlecode.com/hg/index.html
+
+* Cuda documentation
+	http://docs.nvidia.com/cuda/index.html#axzz3tKeCoEAA
