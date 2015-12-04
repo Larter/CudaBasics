@@ -79,7 +79,6 @@ if(argc<3)
 
 //  cudaDeviceReset();
 
-  long mallocStart= clock();
   cudaMalloc((void **) &a_device, array_size*sizeof(float));   // Allocate array on device
 
   long memcpyStart=clock();
@@ -105,7 +104,8 @@ if(argc<3)
   std::copy(a_host+array_size-2, a_host+array_size, printIterator);
 
   // Cleanup
-  free(a_host); cudaFree(a_device);
+  delete[] a_host;
+  cudaFree(a_device);
 
   end_clock("GPU");
   }
@@ -130,7 +130,7 @@ if(argc<3)
   std::copy(a_host+array_size-2, a_host+array_size, printIterator);
 
   // Cleanup
-  free(a_host);
+  delete[] a_host;
   end_clock("CPU");
   }
 }
