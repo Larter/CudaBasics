@@ -26,7 +26,7 @@ void end_clock(char *msg)
 {
     en_time = times(&en_cpu);
 
-    std::cout<< "Time on : " << msg << std::endl<< " :"<< (intmax_t)(en_time - st_time)<<std::endl;
+    std::cout<< "Time on " << msg << " :"<< (intmax_t)(en_time - st_time)<<std::endl;
 }
 
 void pow_array(float *a, int power, int array_size)
