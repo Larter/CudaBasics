@@ -11,7 +11,7 @@ struct int_float_multi_sum_operator
 	{
 		return prev_sum+thrust::get<0>(current)*thrust::get<1>(current);
 	}
-}
+};
 
 
 int main(int argc, char const *argv[])
