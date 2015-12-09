@@ -278,8 +278,6 @@ void count_md5(unsigned char * text, unsigned char* result, int text_length)
 	MD5_Final(result, &ctx);
 }
 
-
-
 struct Word
 {
 	char data[32];
@@ -292,6 +290,39 @@ struct MDHash
 	unsigned char matchedWord[32];
 	bool wordMatched = false;
 };
+
+__global__
+void check_md5(MDHash * hashes, int hashesSize, Word * words, wordsSize)
+{
+	int i;	int j;
+
+	unsigned char hashResult[16];
+	Word checkedWord;
+	
+	MD5_CTX ctx;
+	MD5_Init(&ctx);
+	MD5_Update(&ctx, text, text_length-1);
+	MD5_Final(hashResult, &ctx);
+	
+
+	for(i = 0; i< hashesSize;++i)
+	{
+		if(!hashes[i].wordMatched)
+		{
+			for(j=0; j<16;++j)
+			  if(hashes[i].data[j]!=hashResult)
+			   break;
+			if(j==16)
+			{
+			  hashes[i].wordMatched=true;
+			  for(j=0; j<checkedWord.length; ++j)
+			     hashes[i].matchedWord[j]=checkedWord.data[j];
+			}
+		}
+	}
+}
+
+
 
 struct MD5Hasher
 {
